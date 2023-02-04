@@ -5,6 +5,7 @@ import AuthButtons from './AuthButtons';
 
 type Props = {};
 
+//imported from "/src/components/Navbar/SearchInput.tsx"
 const RightContent = () => {
   return (
     <>
