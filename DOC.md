@@ -1,3 +1,12 @@
+# COMPONENT STRUCTURE
+
+1. Header Section
+
+- App --> Layout --> <Navbar/> --> (Directory, Search Input, RightContent)
+- RightContent --> AuthModal --> 1. OAuthButtons, 2. AuthInputs, 3. ResetPassword
+- AuthInputs --> (Login, SignUp)
+- Directory -->
+
 ## Installiing Next app with Typescript
 
 > https://nextjs.org/docs/basic-features/typescript
@@ -22,23 +31,29 @@ pnpm add @chakra-ui/react @emotion/react @emotion/styled framer-motion
 4. GLOBAL STYLES (fonts, body...)
    "/src/chakra/theme.ts"
 
-### CHAKRA - Icon
+#### CHAKRA - Icon
 
 > https://chakra-ui.com/docs/components/icon/usage
 
-### CHAKRA - Inputs
+#### CHAKRA - Inputs
 
 > https://chakra-ui.com/docs/components/input/usage
 
-### CHAKRA - Custom button
+#### CHAKRA - Custom button
 
 > https://www.codiga.io/blog/component-library-chakra-ui-react/
 
-### CHAKRA - Responsiveness
+#### CHAKRA - Responsiveness
 
 > https://chakra-ui.com/docs/styled-system/responsive-styles
 
-### CHAKRA - Modal
+#### CHAKRA - Modal
+
+#### CHAKRA - Menu
+
+> https://chakra-ui.com/docs/components/menu
+
+"/src/components/Navbar/RightContent/UserMenu.tsx"
 
 ## RECOIL - GLOBAL STATE MANAGEMENT
 
@@ -80,14 +95,18 @@ const setAuthModalState = useSetRecoilState(authModalState);
 pnpm add react-firebase-hooks
 ```
 
-1. useCreateUserWithEmailAndPassword()
+1. Sign Up
 
 > https://github.com/CSFrequency/react-firebase-hooks/tree/master/auth#usecreateuserwithemailandpassword
 
 - "/src/components/Modal/Auth/SignUp.tsx"....
 
-3. OAuth
+2. OAuth
 
-> https://github.com/CSFrequency/react-firebase-hooks/tree/master/auth#usesigninwithgoogle
+> https://github.com/CSFrequency/react-firebase-hooks/tree/master/auth#usesendpasswordresetemail
 
 - "/src/components/Modal/Auth/OAuthButtons.tsx"....
+
+3. Reset Password
+
+- "/src/components/Modal/Auth/ResetPassword.tsx"....

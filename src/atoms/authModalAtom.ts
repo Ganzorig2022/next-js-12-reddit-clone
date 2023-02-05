@@ -17,3 +17,5 @@ export const authModalState = atom<AuthModalState>({
   key: 'authModalState', // unique ID
   default: defaultModalState, // default value (aka initial value)
 });
+
+export type ModalView = 'login' | 'signup' | 'resetPassword';

@@ -1,4 +1,4 @@
-import { authModalState } from '@/atoms/authModalAtom';
+import { authModalState, ModalView } from '@/atoms/authModalAtom';
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
@@ -6,8 +6,11 @@ import { auth } from '@/firebase/clientApp';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { FIREBASE_ERRORS } from '@/firebase/error';
 
-const SignUp = () => {
-  const setAuthModalState = useSetRecoilState(authModalState);
+type Props = {
+  toggleView: (view: ModalView) => void;
+};
+
+const SignUp = ({ toggleView }: Props) => {
   const [signUpForm, setSignUpForm] = useState({
     email: '',
     password: '',
@@ -114,12 +117,7 @@ const SignUp = () => {
           color='blue.500'
           fontWeight={700}
           cursor='pointer'
-          onClick={() =>
-            setAuthModalState((prev) => ({
-              ...prev,
-              view: 'login',
-            }))
-          }
+          onClick={() => toggleView('login')}
         >
           LOG IN
         </Text>
