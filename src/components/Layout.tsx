@@ -11,7 +11,6 @@ const Layout = ({ children }: Props) => {
       {/* NAVBAR */}
       <Navbar />
       <main>{children}</main>
-      Layout
     </>
   );
 };

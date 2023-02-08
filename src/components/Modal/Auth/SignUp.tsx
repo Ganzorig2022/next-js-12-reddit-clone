@@ -1,10 +1,12 @@
 import { authModalState, ModalView } from '@/atoms/authModalAtom';
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { auth } from '@/firebase/clientApp';
+import { auth, firestoreDB } from '@/firebase/clientApp';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { FIREBASE_ERRORS } from '@/firebase/error';
+import { addDoc, collection } from 'firebase/firestore';
+import { User } from 'firebase/auth';
 
 type Props = {
   toggleView: (view: ModalView) => void;
@@ -17,11 +19,17 @@ const SignUp = ({ toggleView }: Props) => {
     confirm: '',
   });
   const [formError, setFormError] = useState('');
-  const [createUserWithEmailAndPassword, user, loading, authError] =
+  const [createUserWithEmailAndPassword, userCred, loading, authError] =
     useCreateUserWithEmailAndPassword(auth); //firebase hook
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (formError) setFormError('');
+
+    if (!signUpForm.email.includes('@')) {
+      return setFormError('Please enter a valid email');
+    }
 
     if (signUpForm.password !== signUpForm.confirm) {
       setFormError('Password do not match!');
@@ -40,6 +48,19 @@ const SignUp = ({ toggleView }: Props) => {
       [event.target.name]: event.target.value,
     }));
   };
+
+  const createUserDocument = async (user: User) => {
+    await addDoc(
+      collection(firestoreDB, 'users'),
+      JSON.parse(JSON.stringify(user))
+    );
+  };
+
+  useEffect(() => {
+    if (userCred) {
+      createUserDocument(userCred.user);
+    }
+  }, [userCred]);
 
   return (
     <form onSubmit={onSubmit}>

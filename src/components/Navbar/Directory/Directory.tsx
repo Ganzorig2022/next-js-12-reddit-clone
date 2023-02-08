@@ -22,6 +22,7 @@ import { auth } from '@/firebase/clientApp';
 import { useRecoilState } from 'recoil';
 import { authModalState } from '@/atoms/authModalAtom';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import Communities from './Communities';
 
 type Props = {
   user?: User | null; //firebase user type
@@ -57,7 +58,9 @@ const UserMenu = ({ user }: Props) => {
           <ChevronDownIcon color='gray.500' />
         </Flex>
       </MenuButton>
-      <MenuList>{/* <Communities/> */}</MenuList>
+      <MenuList>
+        <Communities />
+      </MenuList>
     </Menu>
   );
 };

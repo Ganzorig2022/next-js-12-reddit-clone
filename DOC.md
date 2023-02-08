@@ -87,7 +87,7 @@ const setAuthModalState = useSetRecoilState(authModalState);
 2. "/src/firebase/clientApp.ts" config hiiw.
 3. .env.local
 
-#### React Firebase Hooks
+#### 1 - React Firebase Hooks
 
 > https://github.com/CSFrequency/react-firebase-hooks
 
@@ -103,10 +103,54 @@ pnpm add react-firebase-hooks
 
 2. OAuth
 
-> https://github.com/CSFrequency/react-firebase-hooks/tree/master/auth#usesendpasswordresetemail
+> https://github.com/CSFrequency/react-firebase-hooks/tree/master/auth#usesigninwithgoogle
 
 - "/src/components/Modal/Auth/OAuthButtons.tsx"....
 
 3. Reset Password
 
+> https://github.com/CSFrequency/react-firebase-hooks/tree/master/auth#usesendpasswordresetemail
+
 - "/src/components/Modal/Auth/ResetPassword.tsx"....
+
+4.
+
+#### 2 - Firebase - Cloud Functions
+
+#### 3 - Firebase - Transactions
+
+> https://firebase.google.com/docs/firestore/manage-data/transactions
+
+```js
+ try {
+      const communityDocRef = doc(firestoreDB, 'communities', communityName);
+
+      // ======= TRANSACTIONS method - All at once =======
+      await runTransaction(firestoreDB, async (transaction) => {
+        // similar to ==> const communityDoc = await getDoc(communityDocRef);
+        const communityDoc = await transaction.get(communityDocRef);
+
+        // Check if community is exists in db
+        if (communityDoc.exists()) {
+          throw new Error(`Sorry, /r${name} is taken. Try another.`);
+        }
+
+        //If valid name, create community
+        // similar to ==> await setDoc(communityDocRef,{}
+        transaction.set(communityDocRef, {
+          creatorId: userId,
+          createdAt: serverTimestamp(),
+          numberOfMembers: 1,
+          privacyType: 'public',
+        });
+
+        // Create communitySnippets  - SUBCOLLECTION
+        transaction.set(
+          doc(firestoreDB, `users/${userId}/communitySnippets`, communityName),
+          {
+            communityId: communityName,
+            isModerator: true,
+          }
+        );
+      });
+```
