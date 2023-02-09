@@ -154,3 +154,38 @@ pnpm add react-firebase-hooks
         );
       });
 ```
+
+## DYNAMIC ROUTE
+
+1. "http://localhost:3000/r/[communityName]" ==> "/src/pages/r/[communityName]" buyu "index.tsx"
+
+2. "http://localhost:3000/r/[communityName]/submit" ==> "/src/pages/r/[communityName]/submit.tsx"
+
+## SERVER SIDE RENDERING
+
+1. "http://localhost:3000/r/[communityName]" ==> "/src/pages/r/[communityName]" buyu "index.tsx"
+
+```js
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  try {
+    const communityRef = doc(
+      firestoreDB,
+      'communities',
+      context.query.communityName as string
+    );
+
+    const communityDoc = await getDoc(communityRef);
+    return {
+      props: {
+        communityData: communityDoc.data(),
+      },
+    };
+  } catch (error) {
+    console.log('getServerSideProps error', error);
+  }
+};
+```
+
+## CUSTOM NotFound PAGE
